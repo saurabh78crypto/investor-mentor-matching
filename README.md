@@ -27,7 +27,7 @@ This platform helps users find the best-suited investors or mentors based on the
 
 **Clone the Repository**
 ```bash
-git clone
+git clone https://github.com/saurabh78crypto/investor-mentor-matching.git
 cd investor-mentor-matching
 ```
 
@@ -43,13 +43,19 @@ cd frontend
 npm install
 ```
 
-3. Start the frontend server:
+3. Create a `.env` file and add the following variables:
+```js
+REACT_APP_GOOGLE_CLIENT_ID=your_client_id
+```
+
+4. Start the frontend server:
 ```bash
 npm start
 ```
 
 By default, the frontend runs on: `http://localhost:3000`
 
+---
 
 ### Backend Setup
 
@@ -65,10 +71,14 @@ npm install
 
 3. Create a `.env` file and add the following variables:
 ```js
+PORT=5000
 MONGO_URI=your_mongo_db_uri
 GEMINI_API_KEY=your_gemini_api_key
-EMAIL_SERVICE_USER=your_email@example.com
-EMAIL_SERVICE_PASS=your_email_password
+EMAIL=your_email@example.com
+APP_PASSWORD=your_app_password
+AUTH_CLIENT_ID=your_client_id
+AUTH_CLIENT_SECRET=your_client_secret
+AUTH_CALLBACK_URI=your_auth_callback_uri
 JWT_SECRET=your_jwt_secret
 ```
 
