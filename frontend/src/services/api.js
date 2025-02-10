@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api";
+const API_URL = process.env.REACT_APP_API_URL;
 
 export const searchQuery = async ({ email, query }) => {
   return axios.post(`${API_URL}/search`, { email, query });
