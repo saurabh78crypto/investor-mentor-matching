@@ -9,7 +9,6 @@ const searchInvestorsMentors = async (req, res) => {
 
     const user = await User.findOneAndUpdate(
       { email, credits: { $gt: 0 } }, // Ensure user has credits before decrementing
-      { $inc: { credits: -1 } }, // Deducts 1 credit automatically
       { new: true }
     ); 
 
@@ -30,6 +29,10 @@ const searchInvestorsMentors = async (req, res) => {
     if (!recommendation || recommendation === "No match found") {
       return res.json({ result: "No suitable mentor or investor found." });
     }
+
+    // Deduct credit only if API returns a valid response
+    user.credits -= 1;
+    await user.save();
 
     res.json({ result: recommendation, remainingCredits: user.credits });
   } catch (error) {
