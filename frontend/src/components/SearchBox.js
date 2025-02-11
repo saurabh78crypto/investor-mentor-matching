@@ -14,14 +14,16 @@ const SearchBox = () => {
 
       if(res.data.message) {
         setErrorMessage(res.data.message);
-        setErrorMessage(" ");
+        setErrorMessage("");
       } else {
-        setResponse(res.data.result);
-        setResponse("No results found.");
+        setResponse(res.data.result || "No results found.");
+        setErrorMessage("");
       }
       
     } catch (error) {
       console.error("Search error:", error);
+      setErrorMessage("An error occurred while searching. Please try again.");
+      setResponse("");
     }
   };
 
@@ -39,6 +41,7 @@ const SearchBox = () => {
       </button>
       {errorMessage && <p className="mt-2 text-red-500">{errorMessage}</p>}
       {response && <p className="mt-2 text-lg">{response}</p>}
+      {userCredits !== null && <p className="mt-2 text-gray-500">Remaining Credits: {userCredits}</p>}
     </div>
   );
 };
