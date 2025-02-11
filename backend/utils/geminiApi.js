@@ -7,7 +7,10 @@ async function getInvestorMentorRecommendation(query, dbData) {
         const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`;
 
         const formattedData = dbData.map(item => `Name: ${item.name}, Category: ${item.category}, Type: ${item.type}`).join("\n");
-        const prompt = `Here is a list of investors and mentors:\n\n${formattedData}\n\nBased on the query: "${query}", which investor or mentor is the best match? Return only the name of the best match.`;
+        const prompt = `You are an AI expert in matching users with investors or mentors.
+                        The user provided this query: "${query}". 
+                        Here is a filtered list of investors and mentors relevant to their request: ${formattedData}
+                        Select the best match based on the most relevant category and type. Return only the name of the best match.`;
 
         const response = await axios.post(url, 
             {

@@ -32,7 +32,7 @@ const searchInvestorsMentors = async (req, res) => {
     }
 
     // Get recommendation from OpenAI API
-    const recommendation = await getInvestorMentorRecommendation(query, investorsMentors);
+    const recommendation = await getInvestorMentorRecommendation(query, relevantMatches);
 
     if (!recommendation || recommendation === "No match found") {
       return res.json({ result: "No suitable mentor or investor found.", remainingCredits: user.credits });
