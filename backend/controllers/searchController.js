@@ -18,11 +18,18 @@ const searchInvestorsMentors = async (req, res) => {
       return res.status(400).json({ message: "Your credits are exhausted. Please check your email to recharge." });
     }
 
-    // Deduct credit only if API returns a valid response
-    user.credits -= 1;
-    await user.save();
-
     const investorsMentors = await InvestorMentor.find();
+
+    // Filter relevant matches based on type and category in query
+    const relevantMatches = investorsMentors.filter(item =>
+      query.toLowerCase().includes(item.type.toLowerCase()) &&
+      query.toLowerCase().includes(item.category.toLowerCase())
+    );
+
+    // If no relevant matches found, return "No match found"
+    if (relevantMatches.length === 0) {
+      return res.json({ result: "No suitable mentor or investor found.", remainingCredits: user.credits });
+    }
 
     // Get recommendation from OpenAI API
     const recommendation = await getInvestorMentorRecommendation(query, investorsMentors);
@@ -30,6 +37,10 @@ const searchInvestorsMentors = async (req, res) => {
     if (!recommendation || recommendation === "No match found") {
       return res.json({ result: "No suitable mentor or investor found.", remainingCredits: user.credits });
     }
+
+    // Deduct credit only if a valid match is found
+    user.credits -= 1;
+    await user.save();
 
     res.json({ result: recommendation, remainingCredits: user.credits });
   } catch (error) {
