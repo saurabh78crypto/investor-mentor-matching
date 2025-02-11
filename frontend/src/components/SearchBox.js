@@ -12,17 +12,20 @@ const SearchBox = () => {
       const email = localStorage.getItem("userEmail");
       const res = await searchQuery({ email, query });
 
-      if(res.data.message) {
-        setErrorMessage(res.data.message);
-        setErrorMessage("");
-      } else {
+      if(res.status === 200) {
         setResponse(res.data.result || "No results found.");
         setErrorMessage("");
+        setUserCredits(res.data.remainingCredits);
       }
       
     } catch (error) {
       console.error("Search error:", error);
-      setErrorMessage("An error occurred while searching. Please try again.");
+      if(error.response && error.response.data.message){
+        setErrorMessage(error.response.data.message);
+      } else {
+        setErrorMessage("An error occurred while searching. Please try again.");
+
+      }
       setResponse("");
     }
   };
