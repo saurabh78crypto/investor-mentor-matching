@@ -1,19 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { searchQuery } from "../services/api";
 
 const SearchBox = () => {
   const [query, setQuery] = useState("");
   const [response, setResponse] = useState("");
+  const [userCredits, setUserCredits] = useState(null); 
+  const [errorMessage, setErrorMessage] = useState(""); 
 
   const handleSearch = async () => {
     try {
       const email = localStorage.getItem("userEmail");
       const res = await searchQuery({ email, query });
+
+      if(res.data.message) {
+        setErrorMessage(res.data.message);
+        setErrorMessage(" ");
+      } else {
+        setResponse(res.data.result);
+        setResponse("No results found.");
+      }
       
-      setResponse(res.data.result);
     } catch (error) {
       console.error("Search error:", error);
-      setResponse("No results found.");
     }
   };
 
@@ -29,6 +37,7 @@ const SearchBox = () => {
       <button className="bg-blue-500 text-white p-2 mt-2 rounded" onClick={handleSearch}>
         Search
       </button>
+      {errorMessage && <p className="mt-2 text-red-500">{errorMessage}</p>}
       {response && <p className="mt-2 text-lg">{response}</p>}
     </div>
   );

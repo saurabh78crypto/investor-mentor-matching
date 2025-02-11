@@ -19,7 +19,7 @@ const searchInvestorsMentors = async (req, res) => {
 
     if (user.credits <= 0) {
       await sendEmail(email, "Recharge Credits",   `Your credits are exhausted. Please send an email to saurabhpingale93@gmail.com with the subject "recharge 5 credits" to get more credits.`);
-      return res.status(400).json({ message: "You’ve run out of credits. Please recharge to continue using our services." });
+      return res.status(400).json({ message: "Your credits are exhausted. Please check your email to recharge." });
     }
 
     const investorsMentors = await InvestorMentor.find();
