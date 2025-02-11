@@ -20,6 +20,7 @@ const SearchBox = () => {
       
     } catch (error) {
       console.error("Search error:", error);
+      console.log(error.response.data);
       if(error.response && error.response.data.message){
         setErrorMessage(error.response.data.message);
       } else {
