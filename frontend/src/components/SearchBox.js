@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { searchQuery } from "../services/api";
 
 const SearchBox = () => {
@@ -19,12 +19,11 @@ const SearchBox = () => {
       }
       
     } catch (error) {
-      console.error("Search error:", error);
+      console.error("Search error:", error.response);
       if(error.response && error.response.data.status === 400 && error.response.data.message){
         setErrorMessage(error.response.data.message);
       } else {
         setErrorMessage("An error occurred while searching. Please try again.");
-
       }
       setResponse("");
     }

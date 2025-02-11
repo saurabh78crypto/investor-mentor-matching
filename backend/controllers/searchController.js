@@ -31,10 +31,6 @@ const searchInvestorsMentors = async (req, res) => {
       return res.json({ result: "No suitable mentor or investor found." });
     }
 
-    // Deduct credit only if API returns a valid response
-    user.credits -= 1;
-    await user.save();
-
     res.json({ result: recommendation, remainingCredits: user.credits });
   } catch (error) {
     console.error("Error in searchInvestorsMentors:", error);
