@@ -20,7 +20,7 @@ const SearchBox = () => {
       
     } catch (error) {
       console.error("Search error:", error.response);
-      if(error.response && error.response.data.status === 400){
+      if(error.response && error.response.status === 400){
         setErrorMessage(error.response.data.message);
       } else {
         setErrorMessage("An error occurred while searching. Please try again.");
