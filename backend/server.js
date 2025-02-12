@@ -17,8 +17,8 @@ connectDB();
 app.use(express.json());
 app.use(cors());
 
-// Run Gmail Listener every 5 minutes
-cron.schedule("*/5 * * * *", () => {
+// Run Gmail Listener every 2 minutes
+cron.schedule("*/2 * * * *", () => {
   console.log("Checking for recharge emails...");
   checkRechargeEmails();
 })

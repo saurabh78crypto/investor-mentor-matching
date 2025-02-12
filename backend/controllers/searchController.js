@@ -3,6 +3,8 @@ import InvestorMentor from "../models/InvestorMentor.js";
 import { sendEmail } from "../config/emailService.js";
 import getInvestorMentorRecommendation from "../utils/geminiApi.js";
 
+const EMAIL_COOLDOWN_MS = 60000; // 60 sec 
+
 const searchInvestorsMentors = async (req, res) => {
   try {
     const { email, query } = req.body;
@@ -14,7 +16,14 @@ const searchInvestorsMentors = async (req, res) => {
 
     // Check if user has enough credits
     if (user.credits <= 0) {
-      await sendEmail(email, "Recharge Credits",   `Your credits are exhausted. Please send an email to saurabhpingale93@gmail.com with the subject "recharge 5 credits" to get more credits.`);
+      const now = new Date();
+      
+      // Send email only if no email was sent before or it's a new search attempt
+      if(!user.lastEmailSent || now - user.lastEmailSent > EMAIL_COOLDOWN_MS) { 
+        await sendEmail(email, "Recharge Credits",   `Your credits are exhausted. Please send an email to saurabhpingale93@gmail.com with the subject "recharge 5 credits" to get more credits.`);
+        user.lastEmailSent = now;
+        await user.save();
+      } 
       return res.status(400).json({ message: "Your credits are exhausted. Please check your email to recharge." });
     }
 

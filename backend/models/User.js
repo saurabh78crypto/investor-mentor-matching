@@ -14,6 +14,10 @@ const UserSchema = new mongoose.Schema({
         type: Number,
         default: 5
     },
+    lastEmailSent: {
+        type: Date,
+        default: null
+    },
     timestamp: { 
         type: Date, 
         default: Date.now 
