@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { searchQuery } from "../services/api";
+import { getEmail } from "../utils/searchUtils";
 
 const SearchBox = () => {
   const [query, setQuery] = useState("");
@@ -9,25 +10,19 @@ const SearchBox = () => {
 
   const handleSearch = async () => {
     try {
-      const email = localStorage.getItem("userEmail");
-      const res = await searchQuery({ email, query });
-
-      if(res.status === 200) {
-        setResponse(res.data.result || "No results found.");
-        setErrorMessage("");
-        setUserCredits(res.data.remainingCredits);
-      }
-      
+      const email = getEmail();
+      const data = await searchQuery({ email, query });
+      renderData(data);
     } catch (error) {
-      console.error("Search error:", error.response);
-      if(error.response && error.response.status === 400 && error.response.data.message) {
-        setErrorMessage(error.response.data.message);
-      } else {
-        setErrorMessage("An error occurred while searching. Please try again.");
-      }
-      setResponse("");
-    }
+        setErrorMessage(error.message);
   };
+
+  const renderData = (data) => {
+    setResponse(data);
+    setUserCredits(data.userCredits);
+  }
+  }
+
 
   return (
     <div className="flex flex-col items-center">

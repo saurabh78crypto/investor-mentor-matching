@@ -5,6 +5,7 @@ import cron from "node-cron";
 import connectDB from "./config/db.js";
 import authRoutes from './routes/authRoutes.js';
 import searchRoutes from './routes/searchRoutes.js';
+import investorMentorRoutes from './routes/investorMentorRoutes.js'; 
 import { checkRechargeEmails } from "./utils/gmailListener.js";
 
 dotenv.config();
@@ -25,6 +26,7 @@ cron.schedule("*/2 * * * *", () => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/search", searchRoutes);
+app.use("/api/investor-mentor", investorMentorRoutes);
 
 
 const PORT = process.env.PORT || 5000;
