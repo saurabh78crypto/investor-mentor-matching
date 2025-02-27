@@ -1,7 +1,7 @@
-import InvestorMentor from "../models/InvestorMentor";
+import InvestorMentor from "../models/InvestorMentor.js";
 
 
-const fetchInvestorsMentors = async () => {
+const fetchInvestorsMentors = async (req, res) => {
     try {
         const investorsMentors = await InvestorMentor.find();
 
