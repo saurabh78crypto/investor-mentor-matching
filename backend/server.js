@@ -16,7 +16,11 @@ const app = express();
 connectDB();
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:3000'],
+  methods: ['GET', 'POST'],
+  credentials: true,
+}));
 
 // Run Gmail Listener every 2 minutes
 cron.schedule("*/2 * * * *", () => {
