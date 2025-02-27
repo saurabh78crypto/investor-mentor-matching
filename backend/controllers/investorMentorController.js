@@ -4,6 +4,7 @@ import InvestorMentor from "../models/InvestorMentor.js";
 const fetchInvestorsMentors = async (req, res) => {
     try {
         const investorsMentors = await InvestorMentor.find();
+        console.log(investorsMentors)
 
         return res.status(200).json({ investorsMentors })
     } catch (error) {
